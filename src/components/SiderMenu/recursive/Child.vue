@@ -18,17 +18,17 @@
 </template>
 
 <script>
-    import Parent from './Parent'
+import Parent from './Parent'
 
-    export default {
-        name: 'Child',
-        props: {
-            children: {
-                type: [Array],
-            }
-        },
-        components: {
-            Parent
+export default {
+    name: 'Child',
+    props: {
+        children: {
+            type: [Array],
         }
+    },
+    components: {
+        Parent
     }
+}
 </script>

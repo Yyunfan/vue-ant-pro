@@ -26,17 +26,17 @@
     </div>
 </template>
 <script>
-    export default {
-        name: 'PageHeader',
-        data () {
-            return {
-                breadcrumb: null,
-            }
-        },
-        props: {
-            className: {
-                type: String,
-            }
-        },
-    }
+export default {
+    name: 'PageHeader',
+    data () {
+        return {
+            breadcrumb: null,
+        }
+    },
+    props: {
+        className: {
+            type: String,
+        }
+    },
+}
 </script>

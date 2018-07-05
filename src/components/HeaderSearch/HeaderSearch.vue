@@ -50,7 +50,9 @@ export default {
         },
         dataSource: {
             type: Array,
-            default: []
+            default () {
+                return []
+            }
         },
         defaultOpen: {
             type: Boolean,

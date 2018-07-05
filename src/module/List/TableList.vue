@@ -1,5 +1,3 @@
-<style lang="less" src="./TableList.less"></style>
-
 <template>
     <div>
         <a-card :bordered="false">
@@ -107,6 +105,7 @@
                 <StandardTable
                     :selectedRows="selectedRows"
                     :data="list"
+                    :loading="loading"
                     :columns="columns"
                     @selectRow="handleSelectRows"
                     @change="handleStandardTableChange"
@@ -116,20 +115,15 @@
         </a-card>
     </div>
 </template>
+
 <script>
 import _ from 'lodash'
-import moment from 'moment'
+import dayjs from 'dayjs'
+import { mapState } from 'vuex'
 import StandardTable from '@/components/StandardTable/index'
-/* eslint no-console:0 */
-import { getRule } from '../../mock/rule'
 // import styles from './TableList.less';
 
 import { Form } from 'vue-antd-ui'
-
-console.log(getRule(), 'getrule', Form)
-const data = getRule()
-const { list } = data
-const count = list.length
 
 const gutter = { md: '8', lg: '24', xl: '48' }
 const getValue = obj => Object.keys(obj)
@@ -147,14 +141,18 @@ export default {
             expandForm: false,
             selectedRows: [],
             formValues: {},
-            list,
+            loading: false
             // searchForm: {}
         }
     },
     mounted () {
+        this.loading = true
         this.dispatch({
-            type: 'RULE_FETCH'
+            type: 'rule/fetch',
         })
+            .finally(() => {
+                this.loading = false
+            })
         this.$nextTick(() => {
             console.log(this.$refs.searchForm.getFieldDecorator, 'comp')
         })
@@ -270,6 +268,9 @@ export default {
         // }
     },
     computed: {
+        ...mapState({
+            list: state=> state.rule.data.list
+        }),
         totalInvokeCount () {
             const count = _.reduce(this.selectedRows, (num, row) => {
                 console.log(row, 'row')
@@ -283,7 +284,7 @@ export default {
     filters: {
         transferTime (val) {
             if (!val) return ''
-            return moment(val).format('YYYY-MM-DD HH:mm:ss')
+            return dayjs(val).format('YYYY-MM-DD HH:mm:ss')
         }
     },
     created () {
@@ -339,7 +340,7 @@ export default {
                 dataIndex: 'updatedAt',
                 sorter: true,
                 customRender: val => {
-                    return <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>
+                    return <span>{dayjs(val).format('YYYY-MM-DD HH:mm:ss')}</span>
                 }
             },
             {
@@ -359,3 +360,4 @@ export default {
     },
 }
 </script>
+<style lang="less" src="./TableList.less"></style>

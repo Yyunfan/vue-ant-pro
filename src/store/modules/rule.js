@@ -1,23 +1,34 @@
-const RULE_FETCH = 'RULE_FETCH'
+import { queryRule, removeRule, addRule } from '@/services/api';
+
+const namespace = 'rule'
+
+const FETCH_RULE = `${namespace}/fetch`
 
 const state = {
-    rule: {},
+    data: {
+        list: [],
+        pagination: {},
+    }
 }
 
 const getters = {}
 
 const actions = {
-    [RULE_FETCH] ({ commit }, value) {
-        commit(RULE_FETCH, value)
+    async [FETCH_RULE] ({ commit }, value) {
+        const response = await queryRule(value)
+        console.log(response, 'resonse')
+        commit(FETCH_RULE, response)
     }
 }
 
 const mutations = {
-    [RULE_FETCH] (state, payload) {
-        state.rule = payload
+    [FETCH_RULE] (state, payload) {
+        state.data = {
+            ...state.data,
+            ...payload
+        }
     }
 }
-
 export default {
     state,
     actions,

@@ -37,71 +37,71 @@
     </div>
 </template>
 <script>
-    import HeaderSearch from '@/components/HeaderSearch'
-    import NoticeIcon from '@/components/NoticeIcon'
-    import debounce from 'lodash/debounce'
+import HeaderSearch from '@/components/HeaderSearch'
+import NoticeIcon from '@/components/NoticeIcon'
+import debounce from 'lodash/debounce'
 
-    export default {
-        name: 'GlobalHeader',
-        props: {
-            collapsed: {
-                type: Boolean,
-                default: false
-            },
-            notices: {},
-            fetchingNotices: {
-            },
-            isMobile: {
-                type: Boolean,
-                default: false
-            },
-            logo: {
-                type: String,
-                default: ''
-            },
-            onNoticeVisibleChange: {
-                type: Function,
-                default: () => {}
-            },
-            onMenuClick: {
-                type: Function,
-                default: () => {}
-            },
-            onNoticeClear: {
-                type: Function,
-                default: () => {}
-            },
+export default {
+    name: 'GlobalHeader',
+    props: {
+        collapsed: {
+            type: Boolean,
+            default: false
         },
-        components: {
-            HeaderSearch,
-            NoticeIcon
+        notices: {},
+        fetchingNotices: {
         },
-        data () {
-            return {
-                dataSource: ['搜索提示一', '搜索提示二', '搜索提示三'],
-                menus: [],
-            }
+        isMobile: {
+            type: Boolean,
+            default: false
         },
-        methods: {
-            toggle () {
-                this.$emit('collapse', !this.collapsed)
-                this.triggerResizeEvent()
-            },
-            triggerResizeEvent: debounce(function () {
-                const event = document.createEvent('HTMLEvents')
-                event.initEvent('resize', true, false)
-                window.dispatchEvent(event)
-            }, 600),
-            onSearch (value) {
-                console.log('input', value); // eslint-disable-line
-            },
-            onPressEnter (value) {
-              console.log('enter', value); // eslint-disable-line
-            },
-            handleMenuClick () {
-                console.log('handleMenuClick')
-                this.$emit('')
-            }
+        logo: {
+            type: String,
+            default: ''
         },
-    }
+        onNoticeVisibleChange: {
+            type: Function,
+            default: () => {}
+        },
+        onMenuClick: {
+            type: Function,
+            default: () => {}
+        },
+        onNoticeClear: {
+            type: Function,
+            default: () => {}
+        },
+    },
+    components: {
+        HeaderSearch,
+        NoticeIcon
+    },
+    data () {
+        return {
+            dataSource: ['搜索提示一', '搜索提示二', '搜索提示三'],
+            menus: [],
+        }
+    },
+    methods: {
+        toggle () {
+            this.$emit('collapse', !this.collapsed)
+            this.triggerResizeEvent()
+        },
+        triggerResizeEvent: debounce(function () {
+            const event = document.createEvent('HTMLEvents')
+            event.initEvent('resize', true, false)
+            window.dispatchEvent(event)
+        }, 600),
+        onSearch (value) {
+            console.log('input', value); // eslint-disable-line
+        },
+        onPressEnter (value) {
+            console.log('enter', value); // eslint-disable-line
+        },
+        handleMenuClick () {
+            console.log('handleMenuClick')
+            this.$emit('')
+        }
+    },
+}
 </script>

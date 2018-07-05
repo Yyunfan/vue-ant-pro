@@ -1,5 +1,7 @@
 import axios from 'axios'
-import { notification } from 'antd';
+import {
+    notification
+} from 'vue-antd-ui';
 // import { routerRedux } from 'dva/router';
 // import store from '../index';
 
@@ -20,6 +22,7 @@ const codeMessage = {
     503: '服务不可用，服务器暂时过载或维护。',
     504: '网关超时。',
 };
+
 function checkStatus(response) {
     if (response.status >= 200 && response.status < 300) {
         return response;
@@ -46,8 +49,11 @@ export default function request(url, options) {
     const defaultOptions = {
         credentials: 'include',
     };
-    const newOptions = { ...defaultOptions, ...options };
-    if (newOptions.method === 'POST' || newOptions.method === 'PUT') {
+    const newOptions = {
+        ...defaultOptions,
+        ...options
+    };
+    if (newOptions.method === 'POST' || newOptions.method === 'PUT' || newOptions.method === 'DELETE') {
         if (!(newOptions.body instanceof FormData)) {
             newOptions.headers = {
                 Accept: 'application/json',
@@ -67,10 +73,10 @@ export default function request(url, options) {
     return axios(url, newOptions)
         .then(checkStatus)
         .then(response => {
-            if (newOptions.method === 'DELETE' || response.status === 204) {
-                return response.text();
-            }
-            return response.json();
+            // if (newOptions.method === 'DELETE' || response.status === 204) {
+            //     return response.text();
+            // }
+            return response.data;
         })
         .catch(e => {
             // const { dispatch } = store;

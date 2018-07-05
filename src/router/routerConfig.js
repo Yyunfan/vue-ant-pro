@@ -6,13 +6,15 @@ import HeaderAsideLayout from '../layouts/BasicLayout';
 import Dashboard from '../pages/Dashboard';
 import Page3 from '../pages/Page3';
 import NotFound from '../pages/NotFound';
-import TableList from '../module/List/TableList'
+import TableList from '../module/list/TableList'
+import WorkPlace from '../module/dashboard/WorkPlace'
+import BasicProfile from '../module/profile/BasicProfile'
 
 const routerConfig = [
     {
         path: 'dashboard',
         layout: HeaderAsideLayout,
-        component: Dashboard,
+        component: WorkPlace,
         children: [
             {
                 path: 'analysis',
@@ -27,7 +29,7 @@ const routerConfig = [
             {
                 path: 'workplace',
                 layout: HeaderAsideLayout,
-                component: Page3,
+                component: WorkPlace,
             },
         ],
     },
@@ -132,15 +134,15 @@ const routerConfig = [
     {
         path: 'profile',
         layout: HeaderAsideLayout,
-        component: Page3,
+        component: BasicProfile,
         children: [
             {
-                path: 'success',
+                path: 'basic',
                 layout: HeaderAsideLayout,
-                component: Page3,
+                component: BasicProfile,
             },
             {
-                path: 'fail',
+                path: 'advanced',
                 layout: HeaderAsideLayout,
                 component: Page3,
             },

@@ -12,22 +12,22 @@
     </div>
 </template>
 <script>
-    export default {
-        name: 'Parent',
-        props: {
-            content: {
-                type: [Array],
-            },
-            // collapsed: {
-            //     type: Boolean,
-            //     default: false
-            // },
+export default {
+    name: 'Parent',
+    props: {
+        content: {
+            type: [Array],
         },
-        // beforeCreate () {
-        //     this.$options.components.child = require('./content.vue')
-        // }
-        components: {
-            Child: () => import('./Child.vue')
-        },
-    }
+        // collapsed: {
+        //     type: Boolean,
+        //     default: false
+        // },
+    },
+    // beforeCreate () {
+    //     this.$options.components.child = require('./content.vue')
+    // }
+    components: {
+        Child: () => import('./Child.vue')
+    },
+}
 </script>

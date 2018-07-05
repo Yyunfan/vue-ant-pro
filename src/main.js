@@ -8,7 +8,7 @@ import mixins from './mixins'
 import 'url-polyfill'
 import vueAntdUi from 'vue-antd-ui'
 import 'vue-antd-ui/dist/antd.min.css'
-// Vue.use(vueBeauty)
+
 Vue.use(vueAntdUi)
 Vue.use(mixins)
 
