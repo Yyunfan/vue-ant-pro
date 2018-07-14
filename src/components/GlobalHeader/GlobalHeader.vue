@@ -2,8 +2,13 @@
 
 <template>
     <div class="header">
+        <template v-if="isMobile">
+            <router-link to="/" class="logo" key="logo">
+                <img :src="logo" alt="logo" width="32" />
+            </router-link>
+            <a-divider type="vertical" key="line" />
+        </template>
         <a-icon class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="toggle" />
-
         <div class="right">
             <HeaderSearch class="action search" placeholder="站内搜索" :dataSource="dataSource" :onSearch="onSearch" :onPressEnter="onPressEnter"></HeaderSearch>
             <a-tooltip title="使用文档">
@@ -11,7 +16,16 @@
                     <a-icon type="question-circle-o" />
                 </a>
             </a-tooltip>
-            <!-- <notice-icon></notice-icon> -->
+            <NoticeIcon class="action"
+                :count="currentUser && currentUser.notifyCount"
+                @itemClick="onItemClick"
+                @clear="onNoticeClear"
+                @popupVisibleChange="onNoticeVisibleChange"
+                :loading="fetchingNotices"
+                :popupAlign="{ offset: [20, -16] }"
+                :noticeData="noticeData"
+                >
+            </NoticeIcon>
             <a-dropdown>
                 <span class="action account">
                     <a-avatar size="small" class="avatar" src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png"></a-avatar>
@@ -40,16 +54,26 @@
 import HeaderSearch from '@/components/HeaderSearch'
 import NoticeIcon from '@/components/NoticeIcon'
 import debounce from 'lodash/debounce'
+import groupBy from 'lodash/groupBy'
+import dayjs from 'dayjs'
+import map from 'lodash/map'
 
 export default {
     name: 'GlobalHeader',
     props: {
+        currentUser: {
+            type: Object,
+            default () {
+                return {}
+            }
+        },
         collapsed: {
             type: Boolean,
             default: false
         },
-        notices: {},
         fetchingNotices: {
+            type: Boolean,
+            default: false
         },
         isMobile: {
             type: Boolean,
@@ -59,27 +83,37 @@ export default {
             type: String,
             default: ''
         },
-        onNoticeVisibleChange: {
-            type: Function,
-            default: () => {}
-        },
-        onMenuClick: {
-            type: Function,
-            default: () => {}
-        },
-        onNoticeClear: {
-            type: Function,
-            default: () => {}
-        },
+        notices: {
+            type: [Array],
+            default () {
+                return []
+            }
+        }
     },
     components: {
         HeaderSearch,
-        NoticeIcon
+        NoticeIcon,
     },
     data () {
         return {
             dataSource: ['搜索提示一', '搜索提示二', '搜索提示三'],
-            menus: [],
+            menus: []
+        }
+    },
+    computed: {
+        noticeData () {
+            const newNotices = map(this.notices, notice => {
+                const newNotice = { ...notice };
+                if (newNotice.datetime) {
+                    newNotice.datetime = dayjs(notice.datetime).fromNow();
+                }
+                // transform id to item key
+                if (newNotice.id) {
+                    newNotice.key = newNotice.id;
+                }
+                return newNotice;
+            })
+            return groupBy(newNotices, 'type');
         }
     },
     methods: {
@@ -93,15 +127,28 @@ export default {
             window.dispatchEvent(event)
         }, 600),
         onSearch (value) {
-            console.log('input', value); // eslint-disable-line
+            console.log('input', value);
         },
         onPressEnter (value) {
-            console.log('enter', value); // eslint-disable-line
+            console.log('enter', value);
         },
         handleMenuClick () {
             console.log('handleMenuClick')
-            this.$emit('')
-        }
+            this.$emit('menuClick')
+        },
+        onItemClick (item, tabProps) {
+            console.log(item, tabProps)
+        },
+        onNoticeVisibleChange (visible) {
+            console.log(visible, 'visible')
+            this.$emit('noticeVisibleChange', visible)
+        },
+        onMenuClick () {
+            this.$emit('menuClick')
+        },
+        onNoticeClear () {
+            this.$emit('noticeClear')
+        },
     },
 }
 </script>

@@ -5,19 +5,6 @@
 </template>
 <script>
 export default {
-    name: 'app',
-    created () {
-    },
-    data() {
-        return {
-            customCollapsed: false,
-        }
-    },
-    methods: {
-        toggle() {
-            this.customCollapsed = !this.customCollapsed
-        }
-    }
 }
 </script>
 

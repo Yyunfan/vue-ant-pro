@@ -1,3 +1,3 @@
-import SiderMenu from './SiderMenu'
+import SiderMenuWrapper from './SiderMenuWrapper'
 
-export default SiderMenu
+export default SiderMenuWrapper

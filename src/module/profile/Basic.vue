@@ -57,6 +57,7 @@ export default {
         }
     },
     created () {
+        console.log(this.$route, 'r')
         this.loading = true
         this.dispatch({
             type: 'profile/fetchBasic'
@@ -125,7 +126,7 @@ export default {
                 },
             },
         ];
-        
+
         this.progressColumns = [
             {
                 title: '时间',
@@ -143,9 +144,9 @@ export default {
                 key: 'status',
                 customRender: text =>
                     text === 'success' ? (
-                        <a-badge status="success" text="成功"></a-badge>
+                        <a-badge status='success' text='成功'></a-badge>
                     ) : (
-                        <a-badge status="processing" text="进行中"></a-badge>
+                        <a-badge status='processing' text='进行中'></a-badge>
                     ),
             },
             {
@@ -197,4 +198,4 @@ export default {
     }
 }
 </script>
-<style lang="less" scoped src="./BasicProfile.less"></style>
+<style lang="less" scoped src="./Basic.less"></style>

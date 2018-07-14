@@ -2,8 +2,7 @@
 // 你可以调整 routerConfig 里的内容
 // 变量名 routerConfig 为 iceworks 检测关键字，请不要修改名称
 
-import HeaderAsideLayout from '../layouts/BasicLayout';
-import Dashboard from '../pages/Dashboard';
+import BasicLayout from '../layouts/BasicLayout';
 import Page3 from '../pages/Page3';
 import NotFound from '../pages/NotFound';
 import TableList from '../module/list/TableList'
@@ -12,85 +11,98 @@ import BasicProfile from '../module/profile/BasicProfile'
 
 const routerConfig = [
     {
-        path: 'dashboard',
-        layout: HeaderAsideLayout,
-        component: WorkPlace,
+        path: '/dashboard',
+        name: 'dashboard',
+        component: BasicLayout,
+        redirect: 'noredirect',
+        meta: {
+            title: 'dashboard'
+        },
         children: [
             {
                 path: 'analysis',
-                layout: HeaderAsideLayout,
-                component: Dashboard,
+                name: 'analysis',
+                component: Page3,
+                meta: {
+                    title: '分析页'
+                }
             },
             {
                 path: 'monitor',
-                layout: HeaderAsideLayout,
+                name: 'monitor',
                 component: Page3,
+                meta: {
+                    title: '监控页'
+                }
             },
             {
                 path: 'workplace',
-                layout: HeaderAsideLayout,
+                name: 'workplace',
                 component: WorkPlace,
+                meta: {
+                    title: '工作台'
+                }
             },
         ],
     },
     {
-        path: 'table',
-        name: 'table',
-        layout: HeaderAsideLayout,
-        component: Page3,
+        path: '/form',
+        name: 'form',
+        redirect: 'noredirect',
+        meta: { title: '表单页' },
+        component: BasicLayout,
         children: [
             {
                 path: 'basic-form',
-                layout: HeaderAsideLayout,
+                name: 'basic-form',
+                meta: {
+                    title: '基础表单'
+                },
                 component: Page3,
             },
             {
-                path: 'fixed',
-                layout: HeaderAsideLayout,
+                path: 'step-form',
+                name: 'step-form',
                 component: Page3,
-            },
-        ],
-    },
-    {
-        path: 'form',
-        name: 'form',
-        layout: HeaderAsideLayout,
-        component: Page3,
-        children: [
-            {
-                path: 'basic',
-                layout: HeaderAsideLayout,
-                component: Page3,
-            },
-            {
-                path: 'signup',
-                layout: HeaderAsideLayout,
-                component: Page3,
+                meta: {
+                    title: '分步表单'
+                }
             },
         ],
     },
     {
         name: 'list',
-        path: 'list',
-        layout: HeaderAsideLayout,
-        component: TableList,
+        path: '/list',
+        redirect: 'noredirect',
+        component: BasicLayout,
+        meta: {
+            title: '列表页'
+        },
         children: [
             {
-                name: '查询表格',
+                meta: {
+                    title: '查询表格'
+                },
                 path: 'table-list',
-                layout: HeaderAsideLayout,
+                name: 'table-list',
                 component: TableList
             },
             {
-                name: '标准列表',
                 path: 'basic-list',
+                name: 'basic-list',
+                meta: {
+                    title: '标准列表'
+                },
             },
             {
-                name: '卡片列表',
                 path: 'card-list',
+                name: 'card-list',
+                meta: {
+                    title: '卡片列表'
+                }
             },
             {
-                name: '搜索列表',
+                pageName: '搜索列表',
                 path: 'search',
                 children: [
                     {
@@ -110,70 +122,68 @@ const routerConfig = [
         ],
     },
     {
-        path: 'charts',
-        layout: HeaderAsideLayout,
-        component: Page3,
-        children: [
-            {
-                path: 'line',
-                layout: HeaderAsideLayout,
-                component: Page3,
-            },
-            {
-                path: 'histogram',
-                layout: HeaderAsideLayout,
-                component: Page3,
-            },
-            {
-                path: 'bar',
-                layout: HeaderAsideLayout,
-                component: Page3,
-            },
-        ],
-    },
-    {
-        path: 'profile',
-        layout: HeaderAsideLayout,
-        component: BasicProfile,
+        path: '/profile',
+        component: BasicLayout,
+        redirect: 'noredirect',
         children: [
             {
                 path: 'basic',
-                layout: HeaderAsideLayout,
                 component: BasicProfile,
+                meta: {
+                    title: '基础详情页'
+                }
             },
             {
                 path: 'advanced',
-                layout: HeaderAsideLayout,
                 component: Page3,
             },
         ],
     },
     {
-        path: 'result',
-        layout: HeaderAsideLayout,
-        component: Page3,
+        path: '/result',
+        component: BasicLayout,
+        redirect: 'noredirect',
         children: [
             {
                 path: 'success',
-                layout: HeaderAsideLayout,
+                name: 'success',
                 component: Page3,
             },
             {
                 path: 'fail',
-                layout: HeaderAsideLayout,
+                name: 'fail',
                 component: Page3,
             },
         ],
     },
     {
-        path: 'page3',
-        layout: HeaderAsideLayout,
-        component: Page3,
+        path: '/exception',
+        redirect: 'noredirect',
+        component: BasicLayout,
+        children: [
+            {
+                path: '403',
+                component: Page3,
+            },
+            {
+                path: '404',
+                component: Page3,
+            },
+            {
+                path: '500',
+                component: Page3,
+            },
+        ],
     },
     {
         path: '*',
-        layout: HeaderAsideLayout,
-        component: NotFound,
+        component: BasicLayout,
+        children: [
+            {
+                path: '',
+                component: NotFound
+            }
+        ]
     },
 ];
 

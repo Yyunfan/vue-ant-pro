@@ -269,7 +269,7 @@ export default {
     },
     computed: {
         ...mapState({
-            list: state=> state.rule.data.list
+            list: state => state.rule.data.list
         }),
         totalInvokeCount () {
             const count = _.reduce(this.selectedRows, (num, row) => {
@@ -360,4 +360,4 @@ export default {
     },
 }
 </script>
-<style lang="less" src="./TableList.less"></style>
+<style lang="less" src="./Table.less"></style>

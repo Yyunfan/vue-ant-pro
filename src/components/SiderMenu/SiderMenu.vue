@@ -13,12 +13,9 @@
         <div class="logo">
             <router-link to="/">
                 <img :src="logo" alt="" />
-                <h1>Ant Design Pro</h1>
+                <h1>vue ant pro</h1>
             </router-link>
         </div>
-        <!-- <a-menu :defaultSelectedKeys="['1']" :defaultOpenKeys="['sub1']" mode="inline" theme="dark" :inlineCollapsed="collapsed">
-            <Parent :content="asideMenuConfig"></Parent>
-        </a-menu> -->
         <a-menu
             mode="inline"
             theme="dark"
@@ -27,7 +24,7 @@
             @openChange="onOpenChange"
             :inlineCollapsed="collapsed"
         >
-            <template v-for="(item, index) in asideMenuConfig">
+            <template v-for="(item, index) in menuData">
                 <router-link v-if="!item.children" :to="item.path" :key="item.name">
                     <a-menu-item :key="index">
                         <a-icon v-if="item.icon" :type="item.icon" />
@@ -51,35 +48,17 @@
 </template>
 <script>
 import findIndex from 'lodash/findIndex'
-import { getMenuData } from '@/common/menu'
-import logo from '@/assets/logo.png'
-// import Parent from './recursive/Parent'
-// console.log(getMenuData, 'getMenuData')
 
 export default {
     name: 'SiderMenu',
     data () {
         return {
-            asideMenuConfig: getMenuData(),
-            logo,
             openKeys: ['sub0'],
             defaultSelectedKeys: ['sub0-0']
         }
     },
     created () {
-        const { path } = this.$route || {}
-        let subIndex = 0
-        const index = findIndex(this.asideMenuConfig, config => {
-            if (config.children) {
-                const _index = findIndex(config.children, child => child.path === path)
-                if (_index >= 0) {
-                    subIndex = _index
-                    return true
-                }
-            }
-        })
-        index >= 0 && (this.openKeys = [`sub${index}`])
-        subIndex >= 0 && (this.defaultSelectedKeys = [`sub${index}-${subIndex}`])
+        this.getMenuKey()
         // console.log(index, 'index', subIndex)
     },
     props: {
@@ -87,16 +66,38 @@ export default {
             type: Boolean,
             default: false
         },
+        menuData: {
+            type: Array,
+            default () {
+                return []
+            }
+        },
+        logo: {
+            type: String,
+            default: ''
+        }
     },
-    computed: {
-        // openKeys () {
-        //     const index = findIndex(this.asideMenuConfig, config => {
-        //         if (config)
-        //     })
-        //     return ['sub0']
-        // }
+    watch: {
+        $route () {
+            this.getMenuKey()
+        }
     },
     methods: {
+        getMenuKey () {
+            const { path } = this.$route || {}
+            let subIndex = 0
+            const index = findIndex(this.menuData, config => {
+                if (config.children) {
+                    const _index = findIndex(config.children, child => child.path === path)
+                    if (_index >= 0) {
+                        subIndex = _index
+                        return true
+                    }
+                }
+            })
+            index >= 0 && (this.openKeys = [`sub${index}`])
+            subIndex >= 0 && (this.defaultSelectedKeys = [`sub${index}-${subIndex}`])
+        },
         onCollapse: (collapsed, type) => {
             console.log(collapsed, type, 'onCollapse event')
             // this.$emit('collapse', {
@@ -105,9 +106,9 @@ export default {
             // })
         },
         onOpenChange (openKeys) {
-            console.log(openKeys, 'keys')
+            // console.log(openKeys, 'keys')
             const latestOpenKey = openKeys.find(key => this.openKeys.indexOf(key) === -1)
-            console.log(latestOpenKey, 'last')
+            // console.log(latestOpenKey, 'last')
             this.openKeys = latestOpenKey ? [latestOpenKey] : []
         },
     },

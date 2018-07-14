@@ -4,6 +4,7 @@ import project from './project'
 import activities from './activities'
 import chart from './chart'
 import profile from './profile'
+import user from './user'
 
 export default {
     global,
@@ -11,5 +12,6 @@ export default {
     project,
     activities,
     chart,
-    profile
+    profile,
+    user
 }

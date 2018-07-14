@@ -20,7 +20,7 @@ export default {
             default: 3
         },
         layout: {
-            type:String,
+            type: String,
             default: 'horizontal'
         },
         gutter: {
